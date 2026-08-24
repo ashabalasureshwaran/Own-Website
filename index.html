@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio Astro - Asha Balasureshwaran</title>
+  <style>
+    :root {
+      --bg-color: #0b0d17;
+      --card-bg: rgba(23, 27, 48, 0.7);
+      --accent: #7b2cbf;
+      --accent-glow: #9d4edd;
+      --text: #e0e1dd;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text);
+      overflow-x: hidden;
+      transition: filter 0.5s ease;
+    }
+
+    #space-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+    }
+
+    header {
+      text-align: center;
+      padding: 60px 20px 40px;
+      background: radial-gradient(circle, rgba(123,44,191,0.2) 0%, rgba(11,13,23,0) 70%);
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      color: #fff;
+      text-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+      color: #a0aab2;
+      margin-top: 10px;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    section {
+      background: var(--card-bg);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 30px;
+      margin-bottom: 40px;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    }
+
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      color: var(--accent-glow);
+      border-bottom: 2px solid var(--accent);
+      display: inline-block;
+      padding-bottom: 5px;
+    }
+
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .timeline-item {
+      background: rgba(255, 255, 255, 0.03);
+      padding: 20px;
+      border-radius: 10px;
+      border-left: 4px solid var(--accent);
+    }
+
+    .timeline-item h3 {
+      color: #fff;
+      font-size: 1.2rem;
+    }
+
+    .timeline-item .date {
+      color: var(--accent-glow);
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+    }
+
+    .timeline-item ul {
+      margin-left: 20px;
+      margin-top: 8px;
+    }
+
+    .fact-box {
+      text-align: center;
+      padding: 10px;
+    }
+
+    .fact-display {
+      font-size: 1.1rem;
+      min-height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+      padding: 15px;
+      margin: 15px 0;
+      border: 1px dashed var(--accent-glow);
+    }
+
+    button {
+      background: linear-gradient(45deg, var(--accent), var(--accent-glow));
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 0.95rem;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin: 5px;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(157, 78, 221, 0.4);
+    }
+
+    .interactive-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .tool-card {
+      background: rgba(0, 0, 0, 0.25);
+      padding: 20px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    input[type="number"] {
+      padding: 8px 12px;
+      border-radius: 5px;
+      border: 1px solid var(--accent);
+      background: rgba(0, 0, 0, 0.5);
+      color: #fff;
+      width: 100%;
+      margin: 10px 0;
+    }
+
+    #orbit-sim {
+      width: 100%;
+      height: 280px;
+      background: #05060a;
+      border-radius: 10px;
+      display: block;
+      margin-top: 15px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #7a8a9e;
+      font-size: 0.9rem;
+    }
+
+    /* Style interactif Trou Noir */
+    .black-hole-mode {
+      filter: invert(1) hue-rotate(180deg);
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="space-bg"></canvas>
+
+  <header>
+    <h1>Asha Balasureshwaran</h1>
+    <p class="subtitle">Étudiante en Physique Appliquée & Passionnée d'Astrophysique</p>
+  </header>
+
+  <main>
+    <!-- Section À propos -->
+    <section id="about">
+      <h2>À propos de moi</h2>
+      <p>Bienvenue sur mon espace ! Spécialisée en physique et géosciences, je m'intéresse particulièrement à l'astrophysique solaire, la cosmochimie, et l'analyse de matière extraterrestre.</p>
+    </section>
+
+    <!-- Section Parcours Académique -->
+    <section id="education">
+      <h2>🎓 Parcours Académique</h2>
+      <div class="timeline">
+        <div class="timeline-item">
+          <h3>M1 Physique Appliquée</h3>
+          <div class="date">2026 - 2027</div>
+        </div>
+        <div class="timeline-item">
+          <h3>Double-Licence Géosciences & Physique</h3>
+          <div class="date">2023 - 2026</div>
+        </div>
+        <div class="timeline-item">
+          <h3>École d'été -- Junior Space Academy (JSA)</h3>
+          <div class="date">Juillet 2026 | Paris, France</div>
+          <p>Immersion dans la recherche spatiale, visites de laboratoires (LATMOS, IAS, ONERA) et conférences sur les enjeux de l'exploration spatiale.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section Expériences / Stages -->
+    <section id="experience">
+      <h2>🔭 Expériences & Stages en Recherche</h2>
+      <div class="timeline">
+        <div class="timeline-item">
+          <h3>Stagiaire -- Études de Particules Extraterrestres</h3>
+          <div class="date">Mai 2026 -- Juillet 2026 | IJCLab (Paris, France)</div>
+          <ul>
+            <li>Préparation pour la collecte de particules extraterrestres par ballon stratosphérique.</li>
+            <li>Caractérisation et analyse de micrométéorites antarctiques.</li>
+          </ul>
+        </div>
+
+        <div class="timeline-item">
+          <h3>Stagiaire en Astrophysique Solaire -- Analyse UV & Dynamique Coronale</h3>
+          <div class="date">Juin 2025 -- Juillet 2025 | IAS - Institut d'Astrophysique Spatiale (Paris, France)</div>
+          <ul>
+            <li>Étude de la dynamique des structures coronales par analyse des données du satellite Solar Orbiter en EUV (Python).</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section Outils Fun et Interactifs -->
+    <section id="fun-tools">
+      <h2>🧪 Laboratoire Interactif & Fun</h2>
+      
+      <div class="interactive-grid">
+        <!-- Outil 1: Poids cosmique -->
+        <div class="tool-card">
+          <h3>⚖️ Ton poids dans le Système Solaire</h3>
+          <p>Entre ton poids sur Terre (en kg) :</p>
+          <input type="number" id="weight-input" value="60" oninput="calculateWeights()">
+          <div id="weight-results">
+            <p>🌙 Lune : <strong>- kg</strong></p>
+            <p>🔴 Mars : <strong>- kg</strong></p>
+            <p>🪐 Jupiter : <strong>- kg</strong></p>
+          </div>
+        </div>
+
+        <!-- Outil 2: Mode Trou Noir -->
+        <div class="tool-card">
+          <h3>🕳️ Déformation Spatio-Temporelle</h3>
+          <p>Active l'effet d'optique pour simuler la lentille gravitationnelle d'un trou noir sur la page :</p>
+          <br>
+          <button onclick="toggleBlackHole()">Activer / Désactiver l'effet 🌀</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section Faits Astro Interactifs -->
+    <section id="facts">
+      <h2>Le Saviez-vous ? (Astro Facts)</h2>
+      <div class="fact-box">
+        <div class="fact-display" id="fact-text">Clique sur le bouton pour générer un fait spatial fascinant !</div>
+        <button onclick="generateFact()">Découvrir un fait 🚀</button>
+      </div>
+    </section>
+
+    <!-- Section Mini-Simulateur d'Orbite -->
+    <section id="interactive">
+      <h2>Simulateur Gravitationnel</h2>
+      <p>Cliquez dans l'espace noir ci-dessous pour injecter de nouveaux corps célestes en orbite !</p>
+      <canvas id="orbit-sim"></canvas>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2026 - Asha Balasureshwaran | Développé pour GitHub Pages</p>
+  </footer>
+
+  <script>
+    // 1. Fond d'étoiles animées
+    const canvas = document.getElementById('space-bg');
+    const ctx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    const stars = Array.from({ length: 150 }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      radius: Math.random() * 1.5,
+      alpha: Math.random(),
+      speed: Math.random() * 0.02
+    }));
+
+    function drawStars() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      stars.forEach(star => {
+        star.alpha += star.speed;
+        if (star.alpha > 1 || star.alpha < 0) star.speed = -star.speed;
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${Math.abs(star.alpha)})`;
+        ctx.fill();
+      });
+      requestAnimationFrame(drawStars);
+    }
+    drawStars();
+
+    // 2. Générateur de faits d'astrophysique
+    const astroFacts = [
+      "Une cuillère à café de matière d'étoile à neutrons pèserait environ 6 milliards de tonnes sur Terre.",
+      "L'instrument SPICE à bord de Solar Orbiter observe le Soleil dans le domaine de l'ultraviolet extrême (EUV).",
+      "Environ 20 000 tonnes de micrométéorites tombent sur Terre chaque année, principalement récoltées en Antarctique.",
+      "L'étoile Stephenson 2-18 est si grande qu'elle pourrait contenir près de 10 milliards de Soleils.",
+      "Le silence dans l'espace est absolu car les ondes sonores ont besoin d'un milieu matériel pour se propager.",
+      "La dilatation temporelle fait que le temps s'écoule plus lentement à proximité des objets supermassifs."
+    ];
+
+    function generateFact() {
+      const factText = document.getElementById('fact-text');
+      const randomIndex = Math.floor(Math.random() * astroFacts.length);
+      factText.style.opacity = 0;
+      setTimeout(() => {
+        factText.textContent = astroFacts[randomIndex];
+        factText.style.opacity = 1;
+      }, 200);
+    }
+
+    // 3. Calculateur de poids cosmique
+    function calculateWeights() {
+      const w = parseFloat(document.getElementById('weight-input').value) || 0;
+      const moon = (w * 0.166).toFixed(1);
+      const mars = (w * 0.377).toFixed(1);
+      const jupiter = (w * 2.36).toFixed(1);
+
+      document.getElementById('weight-results').innerHTML = `
+        <p>🌙 Lune : <strong>${moon} kg</strong></p>
+        <p>🔴 Mars : <strong>${mars} kg</strong></p>
+        <p>🪐 Jupiter : <strong>${jupiter} kg</strong></p>
+      `;
+    }
+    calculateWeights();
+
+    // 4. Mode Trou Noir
+    function toggleBlackHole() {
+      document.body.classList.toggle('black-hole-mode');
+    }
+
+    // 5. Mini-simulateur d'orbites
+    const simCanvas = document.getElementById('orbit-sim');
+    const simCtx = simCanvas.getContext('2d');
+    
+    function setupSim() {
+      simCanvas.width = simCanvas.clientWidth;
+      simCanvas.height = simCanvas.clientHeight;
+    }
+    setupSim();
+
+    const sun = { x: simCanvas.width / 2, y: simCanvas.height / 2, mass: 1000 };
+    let planets = [];
+
+    function addPlanet(x, y) {
+      const dx = x - sun.x;
+      const dy = y - sun.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const speed = Math.sqrt(sun.mass / dist) * 0.8;
+      
+      planets.push({
+        x: x,
+        y: y,
+        vx: -dy / dist * speed,
+        vy: dx / dist * speed,
+        radius: 4,
+        color: '#9d4edd'
+      });
+    }
+
+    addPlanet(sun.x + 90, sun.y);
+    addPlanet(sun.x - 140, sun.y);
+
+    simCanvas.addEventListener('click', (e) => {
+      const rect = simCanvas.getBoundingClientRect();
+      addPlanet(e.clientX - rect.left, e.clientY - rect.top);
+    });
+
+    function updatePhysics() {
+      simCtx.fillStyle = 'rgba(5, 6, 10, 0.2)';
+      simCtx.fillRect(0, 0, simCanvas.width, simCanvas.height);
+
+      simCtx.beginPath();
+      simCtx.arc(sun.x, sun.y, 12, 0, Math.PI * 2);
+      simCtx.fillStyle = '#ffb703';
+      simCtx.shadowBlur = 15;
+      simCtx.shadowColor = '#ffb703';
+      simCtx.fill();
+      simCtx.shadowBlur = 0;
+
+      planets.forEach((p) => {
+        const dx = sun.x - p.x;
+        const dy = sun.y - p.y;
+        const distSq = dx * dx + dy * dy;
+        const dist = Math.sqrt(distSq);
+        const force = sun.mass / distSq;
+
+        p.vx += (dx / dist) * force * 0.1;
+        p.vy += (dy / dist) * force * 0.1;
+        p.x += p.vx;
+        p.y += p.vy;
+
+        simCtx.beginPath();
+        simCtx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        simCtx.fillStyle = p.color;
+        simCtx.fill();
+      });
+
+      requestAnimationFrame(updatePhysics);
+    }
+    updatePhysics();
+  </script>
+</body>
+</html>

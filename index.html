@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portfolio Astro - Asha Balasureshwaran</title>
+  <title>Portfolio Astro & Instrumentation - Asha Balasureshwaran</title>
   <style>
     :root {
       --bg-color: #0b0d17;
@@ -156,19 +156,22 @@
       border: 1px solid rgba(255, 255, 255, 0.05);
     }
 
+    input[type="number"], input[type="range"] {
+      width: 100%;
+      margin: 10px 0;
+    }
+
     input[type="number"] {
       padding: 8px 12px;
       border-radius: 5px;
       border: 1px solid var(--accent);
       background: rgba(0, 0, 0, 0.5);
       color: #fff;
-      width: 100%;
-      margin: 10px 0;
     }
 
-    #orbit-sim {
+    #orbit-sim, #optics-sim {
       width: 100%;
-      height: 280px;
+      height: 250px;
       background: #05060a;
       border-radius: 10px;
       display: block;
@@ -182,7 +185,6 @@
       font-size: 0.9rem;
     }
 
-    /* Style interactif Trou Noir */
     .black-hole-mode {
       filter: invert(1) hue-rotate(180deg);
     }
@@ -194,14 +196,16 @@
 
   <header>
     <h1>Asha Balasureshwaran</h1>
-    <p class="subtitle">Étudiante en Physique Appliquée & Passionnée d'Astrophysique</p>
+    <p class="subtitle">Physique Appliquée | Instrumentation Spatiale & Astrophysique</p>
   </header>
 
   <main>
     <!-- Section À propos -->
     <section id="about">
       <h2>À propos de moi</h2>
-      <p>Bienvenue sur mon espace ! Spécialisée en physique et géosciences, je m'intéresse particulièrement à l'astrophysique solaire, la cosmochimie, et l'analyse de matière extraterrestre.</p>
+      <p>Étudiante en Physique Appliquée issue d'un parcours bi-disciplinaire en Physique et Géosciences, je me passionne pour la frontière entre la <strong>recherche fondamentale</strong> et l'<strong>ingénierie instrumentale</strong>.</p>
+      <br>
+      <p>Mon objectif : contribuer à la conception, l'optimisation ou l'utilisation d'instruments d'observation spatiaux (détecteurs EUV, nacelles de ballons stratosphériques, bancs optiques) afin d'explorer le Soleil, le milieu interplanétaire et la matière extraterrestre.</p>
     </section>
 
     <!-- Section Parcours Académique -->
@@ -219,21 +223,21 @@
         <div class="timeline-item">
           <h3>École d'été -- Junior Space Academy (JSA)</h3>
           <div class="date">Juillet 2026 | Paris, France</div>
-          <p>Immersion dans la recherche spatiale, visites de laboratoires (LATMOS, IAS, ONERA) et conférences sur les enjeux de l'exploration spatiale.</p>
+          <p>Immersion dans les technologies spatiales : visites de plateformes d'essais et laboratoires (LATMOS, IAS, ONERA), conférences sur les nanosatellites et l'instrumentation scientifique.</p>
         </div>
       </div>
     </section>
 
     <!-- Section Expériences / Stages -->
     <section id="experience">
-      <h2>🔭 Expériences & Stages en Recherche</h2>
+      <h2>🛠️ Expériences & Instrumentation</h2>
       <div class="timeline">
         <div class="timeline-item">
-          <h3>Stagiaire -- Études de Particules Extraterrestres</h3>
+          <h3>Stagiaire -- Collecte & Analyse de Particules Extraterrestres</h3>
           <div class="date">Mai 2026 -- Juillet 2026 | IJCLab (Paris, France)</div>
           <ul>
-            <li>Préparation pour la collecte de particules extraterrestres par ballon stratosphérique.</li>
-            <li>Caractérisation et analyse de micrométéorites antarctiques.</li>
+            <li>Préparation technique pour la collecte de particules par ballon stratosphérique.</li>
+            <li>Caractérisation physique et micro-analyse de micrométéorites antarctiques.</li>
           </ul>
         </div>
 
@@ -241,13 +245,31 @@
           <h3>Stagiaire en Astrophysique Solaire -- Analyse UV & Dynamique Coronale</h3>
           <div class="date">Juin 2025 -- Juillet 2025 | IAS - Institut d'Astrophysique Spatiale (Paris, France)</div>
           <ul>
-            <li>Étude de la dynamique des structures coronales par analyse des données du satellite Solar Orbiter en EUV (Python).</li>
+            <li>Traitement de données optiques/EUV provenant du télescope Solar Orbiter via des scripts Python.</li>
+            <li>Analyse de la dynamique des structures coronales solaires.</li>
           </ul>
         </div>
       </div>
     </section>
 
-    <!-- Section Outils Fun et Interactifs -->
+    <!-- SECTION NOUVELLE : INSTRUMENTATION INTERACTIVE -->
+    <section id="instrumentation">
+      <h2>⚙️ Simulateur d'Instrument Optique</h2>
+      <p>Ajustez les paramètres optiques du télescope pour observer la focalisation des rayons lumineux et la collecte de photons sur le capteur CCD :</p>
+
+      <div style="margin-top: 15px;">
+        <label>Diamètre de l'ouverture (Miroir/Lentille) : <span id="aperture-val">100</span> mm</label>
+        <input type="range" id="aperture" min="50" max="180" value="100" oninput="updateOptics()">
+
+        <label>Distance focale : <span id="focal-val">150</span> mm</label>
+        <input type="range" id="focal" min="80" max="220" value="150" oninput="updateOptics()">
+      </div>
+
+      <canvas id="optics-sim"></canvas>
+      <div id="optics-info" style="margin-top: 10px; font-size: 0.95rem; color: #a0aab2;"></div>
+    </section>
+
+    <!-- Section Outils Fun -->
     <section id="fun-tools">
       <h2>🧪 Laboratoire Interactif & Fun</h2>
       
@@ -274,7 +296,7 @@
       </div>
     </section>
 
-    <!-- Section Faits Astro Interactifs -->
+    <!-- Section Faits Astro -->
     <section id="facts">
       <h2>Le Saviez-vous ? (Astro Facts)</h2>
       <div class="fact-box">
@@ -296,7 +318,7 @@
   </footer>
 
   <script>
-    // 1. Fond d'étoiles animées
+    // 1. Fond d'étoiles
     const canvas = document.getElementById('space-bg');
     const ctx = canvas.getContext('2d');
 
@@ -329,14 +351,75 @@
     }
     drawStars();
 
-    // 2. Générateur de faits d'astrophysique
+    // 2. Simulateur d'optique / instrumentation
+    const optCanvas = document.getElementById('optics-sim');
+    const optCtx = optCanvas.getContext('2d');
+
+    function updateOptics() {
+      optCanvas.width = optCanvas.clientWidth;
+      optCanvas.height = optCanvas.clientHeight;
+
+      const aperture = parseFloat(document.getElementById('aperture').value);
+      const focal = parseFloat(document.getElementById('focal').value);
+
+      document.getElementById('aperture-val').textContent = aperture;
+      document.getElementById('focal-val').textContent = focal;
+
+      optCtx.clearRect(0, 0, optCanvas.width, optCanvas.height);
+
+      const startX = 40;
+      const lensX = 180;
+      const focusX = lensX + focal;
+      const centerY = optCanvas.height / 2;
+
+      // Rayons incidents
+      optCtx.strokeStyle = '#9d4edd';
+      optCtx.lineWidth = 1.5;
+
+      [-aperture/2, -aperture/4, 0, aperture/4, aperture/2].forEach(offset => {
+        // Rayon avant la lentille
+        optCtx.beginPath();
+        optCtx.moveTo(startX, centerY + offset);
+        optCtx.lineTo(lensX, centerY + offset);
+        optCtx.stroke();
+
+        // Rayon convergeant vers le foyer (capteur)
+        optCtx.beginPath();
+        optCtx.moveTo(lensX, centerY + offset);
+        optCtx.lineTo(focusX, centerY);
+        optCtx.stroke();
+      });
+
+      // Lentille / Miroir
+      optCtx.strokeStyle = '#ffb703';
+      optCtx.lineWidth = 4;
+      optCtx.beginPath();
+      optCtx.moveTo(lensX, centerY - aperture/2);
+      optCtx.lineTo(lensX, centerY + aperture/2);
+      optCtx.stroke();
+
+      // Capteur CCD au foyer
+      optCtx.fillStyle = '#ef233c';
+      optCtx.fillRect(focusX - 2, centerY - 25, 4, 50);
+
+      // Calcul du rapport d/f et résolution relative
+      const fRatio = (focal / aperture).toFixed(1);
+      const lightCollect = Math.round(Math.pow(aperture / 50, 2) * 100);
+
+      document.getElementById('optics-info').innerHTML = `
+        ⚡ Rapport d'ouverture : <strong>f/${fRatio}</strong> | 
+        💡 Flux lumineux collecté : <strong>${lightCollect}%</strong> par rapport à l'ouverture de base
+      `;
+    }
+    window.addEventListener('resize', updateOptics);
+    setTimeout(updateOptics, 100);
+
+    // 3. Faits Astro
     const astroFacts = [
-      "Une cuillère à café de matière d'étoile à neutrons pèserait environ 6 milliards de tonnes sur Terre.",
+      "Le télescope spatial James Webb possède un miroir primaire de 6,5 mètres de diamètre composé de 18 segments en béryllium dorés.",
       "L'instrument SPICE à bord de Solar Orbiter observe le Soleil dans le domaine de l'ultraviolet extrême (EUV).",
       "Environ 20 000 tonnes de micrométéorites tombent sur Terre chaque année, principalement récoltées en Antarctique.",
-      "L'étoile Stephenson 2-18 est si grande qu'elle pourrait contenir près de 10 milliards de Soleils.",
-      "Le silence dans l'espace est absolu car les ondes sonores ont besoin d'un milieu matériel pour se propager.",
-      "La dilatation temporelle fait que le temps s'écoule plus lentement à proximité des objets supermassifs."
+      "Les détecteurs CCD et CMOS en astrophysique sont souvent refroidis cryogéniquement pour réduire le bruit thermique."
     ];
 
     function generateFact() {
@@ -349,27 +432,23 @@
       }, 200);
     }
 
-    // 3. Calculateur de poids cosmique
+    // 4. Calculateur de poids
     function calculateWeights() {
       const w = parseFloat(document.getElementById('weight-input').value) || 0;
-      const moon = (w * 0.166).toFixed(1);
-      const mars = (w * 0.377).toFixed(1);
-      const jupiter = (w * 2.36).toFixed(1);
-
       document.getElementById('weight-results').innerHTML = `
-        <p>🌙 Lune : <strong>${moon} kg</strong></p>
-        <p>🔴 Mars : <strong>${mars} kg</strong></p>
-        <p>🪐 Jupiter : <strong>${jupiter} kg</strong></p>
+        <p>🌙 Lune : <strong>${(w * 0.166).toFixed(1)} kg</strong></p>
+        <p>🔴 Mars : <strong>${(w * 0.377).toFixed(1)} kg</strong></p>
+        <p>🪐 Jupiter : <strong>${(w * 2.36).toFixed(1)} kg</strong></p>
       `;
     }
     calculateWeights();
 
-    // 4. Mode Trou Noir
+    // 5. Trou noir
     function toggleBlackHole() {
       document.body.classList.toggle('black-hole-mode');
     }
 
-    // 5. Mini-simulateur d'orbites
+    // 6. Simulateur d'orbite
     const simCanvas = document.getElementById('orbit-sim');
     const simCtx = simCanvas.getContext('2d');
     
@@ -389,12 +468,10 @@
       const speed = Math.sqrt(sun.mass / dist) * 0.8;
       
       planets.push({
-        x: x,
-        y: y,
+        x: x, y: y,
         vx: -dy / dist * speed,
         vy: dx / dist * speed,
-        radius: 4,
-        color: '#9d4edd'
+        radius: 4, color: '#9d4edd'
       });
     }
 
